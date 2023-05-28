@@ -25,6 +25,7 @@ database::database(QObject *parent)
     {
        qDebug() << "database opened";
     }
+
 }
 
 database::~database()
@@ -48,21 +49,38 @@ QStringList database::getTableNames()
 {
     QStringList tableNames;
 
-        if (db.isValid()) {
+    if (db.isValid())
+    {
+        QSqlQuery query(db);
 
-            QSqlQuery query(db);
+        query.exec("SELECT name FROM sqlite_master WHERE type='table'");
 
-            query.exec("SELECT name FROM sqlite_master WHERE type='table'");
+        while (query.next())
+        {
+            tableNames.append(query.value(0).toString());
 
-            while (query.next())
-            {
-                tableNames.append(query.value(0).toString());
-
-                qDebug() << tableNames;
-            }
+            //qDebug() << tableNames;
         }
+    }
 
     return tableNames;
+}
+
+void database::getEmployeLoginData(QVector<LoginData>& EmployeLoginData)
+{
+    if (db.isValid())
+    {
+        QSqlQuery query(db);
+
+        while (query.next())
+        {
+            qDebug() << query.value(1).toString() << query.value(9).toString();
+
+            LoginData LD{query.value(1).toString(), query.value(9).toString()};
+
+            EmployeLoginData.push_back(LD);
+        }
+    }
 }
 
 

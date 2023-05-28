@@ -9,6 +9,7 @@
 #include <Qstackedwidget.h>
 
 #include "database.h"
+#include "login.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -28,6 +29,7 @@ public:
 private:
     Ui::MainWindow *ui;
 
+    login* lg;
     database* db;
     QSqlTableModel* model;
     QPushButton* saveButton;

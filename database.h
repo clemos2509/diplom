@@ -3,6 +3,18 @@
 
 #include <QObject>
 #include <QtSql>
+#include <QString>
+
+struct LoginData
+{
+    QString name;
+    QString password;
+
+    bool operator==(const LoginData& LD) const
+    {
+        return name == LD.name && password == LD.password;
+    }
+};
 
 class database : public QObject
 {
@@ -15,6 +27,8 @@ public:
     QSqlTableModel* createTableModel(const QString& tableName);
 
     QStringList getTableNames();
+
+    void getEmployeLoginData(QVector<LoginData>& EmployeLoginData);
 
 signals:
 

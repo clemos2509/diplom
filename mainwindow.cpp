@@ -13,8 +13,12 @@ MainWindow::MainWindow(QWidget *parent)
     model = new QSqlTableModel();
     saveButton = new QPushButton();
     ui->comboBox->addItems(db->getTableNames());
+    lg = new login(nullptr);
 
-    QObject::connect(ui->pushButton, &QPushButton::clicked, [=]() {ui->stackedWidget->setCurrentIndex(1); showTable(ui->comboBox->currentText());});
+    db->getEmployeLoginData(lg->EmployeLoginData);
+
+    QObject::connect(ui->pushButton_2, &QPushButton::clicked, [=]() { if (lg->Login(LoginData{ui->lineEdit->text(), ui->lineEdit_2->text()})) ui->stackedWidget->setCurrentIndex(1);});
+    //QObject::connect(ui->pushButton, &QPushButton::clicked, [=]() {ui->stackedWidget->setCurrentIndex(1); showTable(ui->comboBox->currentText());});
 }
 
 MainWindow::~MainWindow()
