@@ -10,13 +10,11 @@ CONFIG += c++17
 
 SOURCES += \
     database.cpp \
-    login.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
     database.h \
-    login.h \
     mainwindow.h
 
 FORMS += \

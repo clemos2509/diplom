@@ -26,18 +26,19 @@ database::database(QObject *parent)
        qDebug() << "database opened";
     }
 
+    getEmployeLoginData();
 }
 
 database::~database()
 {
-    closed = true;
-
     qDebug() << "database closed";
+
+    closed = true;
 
     db.close();
 }
 
-QSqlTableModel* database::createTableModel(const QString &tableName)
+QSqlTableModel* database::createTableModel(const QString tableName)
 {
     QSqlTableModel* model = new QSqlTableModel();
     model->setTable(tableName);
@@ -59,18 +60,20 @@ QStringList database::getTableNames()
         {
             tableNames.append(query.value(0).toString());
 
-            //qDebug() << tableNames;
+            qDebug() << tableNames;
         }
     }
 
     return tableNames;
 }
 
-void database::getEmployeLoginData(QVector<LoginData>& EmployeLoginData)
+void database::getEmployeLoginData()
 {
     if (db.isValid())
     {
         QSqlQuery query(db);
+
+        query.exec("SELECT * FROM Работники");
 
         while (query.next())
         {
@@ -81,6 +84,20 @@ void database::getEmployeLoginData(QVector<LoginData>& EmployeLoginData)
             EmployeLoginData.push_back(LD);
         }
     }
+}
+
+bool database::login(LoginData LD)
+{
+    int count = 0;
+
+    for (auto tmp : EmployeLoginData)
+    {
+        if (tmp == LD) count += 1;
+    }
+
+    qDebug() << "Count " << EmployeLoginData.size();
+
+    return (count);
 }
 
 

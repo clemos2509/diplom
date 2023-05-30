@@ -24,11 +24,13 @@ public:
 
     ~database();
 
-    QSqlTableModel* createTableModel(const QString& tableName);
+    QSqlTableModel* createTableModel(const QString tableName);
 
     QStringList getTableNames();
 
-    void getEmployeLoginData(QVector<LoginData>& EmployeLoginData);
+    void getEmployeLoginData();
+
+    bool login(LoginData LD);
 
 signals:
 
@@ -37,6 +39,8 @@ private:
     QSqlDatabase db;
 
     bool closed = true;
+
+    QVector<LoginData> EmployeLoginData;
 };
 
 #endif // DATABASE_H
